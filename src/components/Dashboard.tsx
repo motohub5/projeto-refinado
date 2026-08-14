@@ -318,7 +318,7 @@ function ViewRelatorios() {
   const [selectedMonth, setSelectedMonth] = useState(5)
   const months = ['Mar 26', 'Abr 26', 'Mai 26', 'Jun 26', 'Jul 26', 'Ago 26']
 
-  const current = monthlyData[selectedMonth]
+  const current = monthlyData[selectedMonth] ?? monthlyData[monthlyData.length - 1]!
   const prev = monthlyData[selectedMonth - 1]
   const diff = prev ? ((current.lucro - prev.lucro) / prev.lucro * 100).toFixed(1) : null
 
@@ -345,7 +345,7 @@ function ViewRelatorios() {
 
       {/* KPI row */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: 12 }}>
-        <KPICard label="Lucro Líquido" value={fmt(current.lucro)} sub={diff ? `${diff}% vs mês anterior` : undefined} trend={diff && parseFloat(diff) >= 0 ? 'up' : 'down'} />
+        <KPICard label="Lucro Líquido" value={fmt(current.lucro)} {...(diff ? { sub: `${diff}% vs mês anterior` } : {})} trend={diff && parseFloat(diff) >= 0 ? 'up' : 'down'} />
         <KPICard label="Receita Bruta" value={fmt(current.ganho)} color="var(--text)" />
         <KPICard label="Total Despesas" value={fmt(current.despesas)} color="#ef4444" />
       </div>
